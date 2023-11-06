@@ -1,0 +1,26 @@
+{
+  "resourceName": "amplifyhandsondynamodbksatou",
+  "tableName": "amplifyhandsondynamodbksatou",
+  "partitionKey": {
+    "fieldName": "applicationDatetime",
+    "fieldType": "number"
+  },
+  "sortKey": {
+    "fieldName": "applicant",
+    "fieldType": "string"
+  },
+  "gsi": [
+    {
+      "name": "status-applicant",
+      "partitionKey": {
+        "fieldName": "status",
+        "fieldType": "string"
+      },
+      "sortKey": {
+        "fieldName": "applicant",
+        "fieldType": "string"
+      }
+    }
+  ],
+  "triggerFunctions": []
+}
