@@ -1,18 +1,32 @@
 {
   "api": {
-    "amplifyhandsonksatou": {
+    "amplifyhandsonksatou2": {
       "dependsOn": [
         {
           "attributes": [
-            "Name",
-            "Arn"
+            "UserPoolId"
           ],
-          "category": "function",
-          "resourceName": "amplifyhandsonlambdaksatou"
+          "category": "auth",
+          "resourceName": "projectname9f8fc4db"
         }
       ],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ],
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authprojectname9f8fc4db"
+            }
+          }
+        }
+      },
       "providerPlugin": "awscloudformation",
-      "service": "API Gateway"
+      "service": "AppSync"
     }
   },
   "auth": {
@@ -41,49 +55,6 @@
       "service": "Cognito"
     }
   },
-  "function": {
-    "amplifyhandsonlambdaksatou": {
-      "build": true,
-      "dependsOn": [
-        {
-          "attributeEnvMap": {
-            "Arn": "TABLE_ARN",
-            "Name": "TABLE_NAME"
-          },
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "storage",
-          "resourceName": "amplifyhandsondynamodbksatou"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    }
-  },
-  "parameters": {
-    "AMPLIFY_function_amplifyhandsonlambdaksatou_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "amplifyhandsonlambdaksatou"
-        }
-      ]
-    },
-    "AMPLIFY_function_amplifyhandsonlambdaksatou_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "amplifyhandsonlambdaksatou"
-        }
-      ]
-    }
-  },
-  "storage": {
-    "amplifyhandsondynamodbksatou": {
-      "providerPlugin": "awscloudformation",
-      "service": "DynamoDB"
-    }
-  }
+  "function": {},
+  "storage": {}
 }

@@ -1,0 +1,6 @@
+type Application @model @auth(rules: [{allow: private, operations: [create, read, update]}]) {
+  id: ID!
+  applicant: String!
+  amount: Int!
+  status: String!
+} 

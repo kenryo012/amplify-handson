@@ -1,0 +1,12 @@
+{
+  "AppSyncApiName": "amplifyhandsonksatou2",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authprojectname9f8fc4db",
+      "Outputs.UserPoolId"
+    ]
+  },
+  "AuthModeLastUpdated": "2023-12-05T03:03:14.773Z"
+}
