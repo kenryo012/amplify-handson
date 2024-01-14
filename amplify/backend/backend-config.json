@@ -55,6 +55,22 @@
       "service": "Cognito"
     }
   },
+  "custom": {
+    "customResourceksatou": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "amplifyhandsonksatou2"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "customCloudformation"
+    }
+  },
   "function": {},
   "storage": {}
 }

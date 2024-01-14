@@ -17,17 +17,17 @@ import { Button, Flex, TextField } from "@aws-amplify/ui-react";
 export default function ApplicationCreate(props) {
   const { overrides, ...rest } = props;
   const [
-    textFieldThreeEightFiveNineFiveNineThreeValue,
-    setTextFieldThreeEightFiveNineFiveNineThreeValue,
+    textFieldThreeEightEightOneSixOneSixValue,
+    setTextFieldThreeEightEightOneSixOneSixValue,
   ] = useStateMutationAction("");
   const [
-    textFieldThreeEightFiveNineSixThreeNineValue,
-    setTextFieldThreeEightFiveNineSixThreeNineValue,
+    textFieldThreeEightEightOneSixSixThreeValue,
+    setTextFieldThreeEightEightOneSixSixThreeValue,
   ] = useStateMutationAction("");
   const buttonOnClick = useDataStoreCreateAction({
     fields: {
-      applicant: textFieldThreeEightFiveNineFiveNineThreeValue,
-      amount: textFieldThreeEightFiveNineSixThreeNineValue,
+      applicant: textFieldThreeEightEightOneSixOneSixValue,
+      amount: textFieldThreeEightEightOneSixSixThreeValue,
       status: "APPLYING",
     },
     model: Application,
@@ -73,13 +73,11 @@ export default function ApplicationCreate(props) {
           isDisabled={false}
           labelHidden={false}
           variation="default"
-          value={textFieldThreeEightFiveNineFiveNineThreeValue}
+          value={textFieldThreeEightEightOneSixOneSixValue}
           onChange={(event) => {
-            setTextFieldThreeEightFiveNineFiveNineThreeValue(
-              event.target.value
-            );
+            setTextFieldThreeEightEightOneSixOneSixValue(event.target.value);
           }}
-          {...getOverrideProps(overrides, "TextField3859593")}
+          {...getOverrideProps(overrides, "TextField3881616")}
         ></TextField>
         <TextField
           width="unset"
@@ -92,11 +90,11 @@ export default function ApplicationCreate(props) {
           isDisabled={false}
           labelHidden={false}
           variation="default"
-          value={textFieldThreeEightFiveNineSixThreeNineValue}
+          value={textFieldThreeEightEightOneSixSixThreeValue}
           onChange={(event) => {
-            setTextFieldThreeEightFiveNineSixThreeNineValue(event.target.value);
+            setTextFieldThreeEightEightOneSixSixThreeValue(event.target.value);
           }}
-          {...getOverrideProps(overrides, "TextField3859639")}
+          {...getOverrideProps(overrides, "TextField3881663")}
         ></TextField>
         <Button
           width="unset"
