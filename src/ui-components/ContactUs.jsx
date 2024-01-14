@@ -6,13 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  getOverrideProps,
-  useDataStoreCreateAction,
-  useStateMutationAction,
-} from "./utils";
-import { Application } from "../models";
-import { schema } from "../models/schema";
+import { getOverrideProps } from "./utils";
 import {
   Button,
   CheckboxField,
@@ -24,28 +18,6 @@ import {
 import MyIcon from "./MyIcon";
 export default function ContactUs(props) {
   const { overrides, ...rest } = props;
-  const [
-    textFieldTwoNineSevenSixSixNineThreeSixValue,
-    setTextFieldTwoNineSevenSixSixNineThreeSixValue,
-  ] = useStateMutationAction("");
-  const [
-    textFieldTwoNineSevenSixSixNineThreeEightValue,
-    setTextFieldTwoNineSevenSixSixNineThreeEightValue,
-  ] = useStateMutationAction("");
-  const [
-    textFieldTwoNineSevenSixSixNineThreeNineValue,
-    setTextFieldTwoNineSevenSixSixNineThreeNineValue,
-  ] = useStateMutationAction("");
-  const buttonOnClick = useDataStoreCreateAction({
-    fields: {
-      applicationDatetime: textFieldTwoNineSevenSixSixNineThreeSixValue,
-      applicant: textFieldTwoNineSevenSixSixNineThreeEightValue,
-      amount: textFieldTwoNineSevenSixSixNineThreeNineValue,
-      status: '{"":""}',
-    },
-    model: Application,
-    schema: schema,
-  });
   return (
     <Flex
       gap="24px"
@@ -86,10 +58,6 @@ export default function ContactUs(props) {
           isDisabled={false}
           labelHidden={false}
           variation="default"
-          value={textFieldTwoNineSevenSixSixNineThreeSixValue}
-          onChange={(event) => {
-            setTextFieldTwoNineSevenSixSixNineThreeSixValue(event.target.value);
-          }}
           {...getOverrideProps(overrides, "TextField29766936")}
         ></TextField>
         <TextField
@@ -104,12 +72,6 @@ export default function ContactUs(props) {
           isDisabled={false}
           labelHidden={false}
           variation="default"
-          value={textFieldTwoNineSevenSixSixNineThreeEightValue}
-          onChange={(event) => {
-            setTextFieldTwoNineSevenSixSixNineThreeEightValue(
-              event.target.value
-            );
-          }}
           {...getOverrideProps(overrides, "TextField29766938")}
         ></TextField>
       </Flex>
@@ -124,10 +86,6 @@ export default function ContactUs(props) {
         isDisabled={false}
         labelHidden={false}
         variation="default"
-        value={textFieldTwoNineSevenSixSixNineThreeNineValue}
-        onChange={(event) => {
-          setTextFieldTwoNineSevenSixSixNineThreeNineValue(event.target.value);
-        }}
         {...getOverrideProps(overrides, "TextField29766939")}
       ></TextField>
       <TextAreaField
@@ -163,9 +121,6 @@ export default function ContactUs(props) {
         isDisabled={false}
         variation="primary"
         children="Send message"
-        onClick={() => {
-          buttonOnClick();
-        }}
         {...getOverrideProps(overrides, "Button")}
       ></Button>
       <Flex
