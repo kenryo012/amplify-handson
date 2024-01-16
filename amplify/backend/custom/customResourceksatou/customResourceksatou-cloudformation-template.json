@@ -23,7 +23,7 @@ Resources:
             Action: sts:AssumeRole
       Path: /
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AWSStepFunctionsFullAccess
+        - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
   # EventBridge Pipes用のIAMロール
   ApplyPipeRole:
     Type: AWS::IAM::Role
@@ -74,11 +74,85 @@ Resources:
     Properties:
       DefinitionString: |-
         {
-          "Comment": "A description of my state machine",
-          "StartAt": "Pass",
+          "StartAt": "Change Status And Add Token",
           "States": {
-            "Pass": {
-              "Type": "Pass",
+            "Change Status And Add Token": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem.waitForTaskToken",
+              "Parameters": {
+                "TableName.$": "States.ArrayGetItem(States.StringSplit($.[0].eventSourceARN, '/'), 1)",
+                "Key": {
+                  "id": {
+                    "S.$": "$.[0].dynamodb.Keys.id.S"
+                  }
+                },
+                "UpdateExpression": "SET #st = :newStatus, taskToken = :taskToken",
+                "ExpressionAttributeNames": {
+                  "#st": "status"
+                },
+                "ExpressionAttributeValues": {
+                  ":newStatus": {
+                    "S": "CHECKING"
+                  },
+                  ":taskToken": {
+                    "S.$": "$$.Task.Token"
+                  }
+                }
+              },
+              "Catch": [
+                {
+                  "ErrorEquals": [
+                    "States.TaskFailed"
+                  ],
+                  "Next": "Change Status To REJECTED",
+                  "ResultPath": null
+                }
+              ],
+              "Next": "Change Status To ACCEPTED",
+              "ResultPath": null
+            },
+            "Change Status To ACCEPTED": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::dynamodb:updateItem",
+              "Parameters": {
+                "TableName.$": "States.ArrayGetItem(States.StringSplit($.[0].eventSourceARN, '/'), 1)",
+                "Key": {
+                  "id": {
+                    "S.$": "$.[0].dynamodb.Keys.id.S"
+                  }
+                },
+                "UpdateExpression": "SET #st = :newStatus",
+                "ExpressionAttributeNames": {
+                  "#st": "status"
+                },
+                "ExpressionAttributeValues": {
+                  ":newStatus": {
+                    "S": "ACCEPTED"
+                  }
+                }
+              },
+              "End": true
+            },
+            "Change Status To REJECTED": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::dynamodb:updateItem",
+              "Parameters": {
+                "TableName.$": "States.ArrayGetItem(States.StringSplit($.[0].eventSourceARN, '/'), 1)",
+                "Key": {
+                  "id": {
+                    "S.$": "$.[0].dynamodb.Keys.id.S"
+                  }
+                },
+                "UpdateExpression": "SET #st = :newStatus",
+                "ExpressionAttributeNames": {
+                  "#st": "status"
+                },
+                "ExpressionAttributeValues": {
+                  ":newStatus": {
+                    "S": "REJECTED"
+                  }
+                }
+              },
               "End": true
             }
           }
