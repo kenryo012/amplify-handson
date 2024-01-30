@@ -1,6 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Parameters: 
-  # Jsonファイルに出力されていたパラメータを移植
+Parameters:
   env:
     Type: String
   apiamplifyhandsonksatou2GraphQLAPIIdOutput:
@@ -8,8 +7,6 @@ Parameters:
   apiamplifyhandsonksatou2GraphQLAPIEndpointOutput:
     Type: String
 Resources:
-  # ステートマシンに付与するIAMロール
-  # ステートマシンは現在PassするだけのやつなのでIAMポリシーは適当に付与
   StatesExecutionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -24,7 +21,6 @@ Resources:
       Path: /
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
-  # EventBridge Pipes用のIAMロール
   ApplyPipeRole:
     Type: AWS::IAM::Role
     Properties:
@@ -38,7 +34,6 @@ Resources:
                 - pipes.amazonaws.com
             Action:
               - sts:AssumeRole
-  # EventBridge Pipes用のIAMポリシー
   ApplyPipePolicy:
     Type: AWS::IAM::Policy
     Properties:
@@ -46,7 +41,6 @@ Resources:
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
-          # DynamoDB Streamsの参照を許可する設定
           - Effect: Allow
             Action:
               - dynamodb:DescribeStream
@@ -57,7 +51,6 @@ Resources:
               Fn::ImportValue:
                 Fn::Sub: >-
                   ${apiamplifyhandsonksatou2GraphQLAPIIdOutput}:GetAtt:ApplicationTable:StreamArn
-          # Step Functionsのステートマシンの実行を許可する設定
           - Effect: Allow
             Action:
               - states:StartExecution
@@ -67,8 +60,6 @@ Resources:
                 - Arn
       Roles:
         - Ref: ApplyPipeRole
-  # Step Functionsのステートマシン
-  # 動作確認用なのでステートマシンの処理は簡素
   IntegrationStateMachine:
     Type: AWS::StepFunctions::StateMachine
     Properties:
@@ -162,7 +153,6 @@ Resources:
         Fn::GetAtt:
           - StatesExecutionRole
           - Arn
-  # EventBridge Pipes
   ApplyPipe:
     Type: AWS::Pipes::Pipe
     Properties:
@@ -171,34 +161,22 @@ Resources:
         Fn::GetAtt:
           - ApplyPipeRole
           - Arn
-      # イベントの元となるリソースのARNを指定
-      # 今回はDynamoDB StreamsのARN
       Source:
         Fn::ImportValue:
           Fn::Sub: >-
             ${apiamplifyhandsonksatou2GraphQLAPIIdOutput}:GetAtt:ApplicationTable:StreamArn
       SourceParameters:
-        # イベント読み取りに関する設定
-        # StartingPositionは読み取り開始位置を意味し、LATESTは常に最新のものから順に読み込むことを表す
-        # BatchSizeは1回の読み取りで最大いくつイベントをターゲットに流し込むかを指定する
         DynamoDBStreamParameters:
           StartingPosition: LATEST
           BatchSize: 1
-        # イベントのフィルタリング設定
-        # イベントJson内にプライマリーキーが存在し、かつ、eventNameの値がINSERTであるもののみ処理するよう指定
         FilterCriteria:
           Filters:
             - Pattern: >-
                 {"dynamodb":{"Keys":{"id":{"S":[{"exists":true}]}}},"eventName":[{"prefix":"INSERT"}]}
-      # ターゲットとなるリソースのARNを指定
-      # 今回はStep FunctionsのステートマシンのARN
       Target:
         Fn::GetAtt:
           - IntegrationStateMachine
           - Arn
-      # ターゲットに関する設定
-      # ステートマシンのワークフロータイプが標準（デフォルト）の場合、非同期実行（FIRE_AND_FORGET）を指定しなければならない
-      # https://docs.aws.amazon.com/eventbridge/latest/pipes-reference/API_PipeTargetStateMachineParameters.html
       TargetParameters:
         StepFunctionStateMachineParameters:
           InvocationType: FIRE_AND_FORGET
