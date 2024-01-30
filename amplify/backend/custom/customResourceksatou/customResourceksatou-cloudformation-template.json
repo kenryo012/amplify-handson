@@ -28,7 +28,7 @@ Resources:
   ApplyPipeRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: ksatouApplyPipeRole
+      RoleName: ksatou2ApplyPipeRole
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -42,7 +42,7 @@ Resources:
   ApplyPipePolicy:
     Type: AWS::IAM::Policy
     Properties:
-      PolicyName: ksatouApplyPipePolicy
+      PolicyName: ksatou2ApplyPipePolicy
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -166,7 +166,7 @@ Resources:
   ApplyPipe:
     Type: AWS::Pipes::Pipe
     Properties:
-      Name: ksatouApplyPipe
+      Name: ksatou2ApplyPipe
       RoleArn:
         Fn::GetAtt:
           - ApplyPipeRole
