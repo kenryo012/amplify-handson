@@ -1,6 +1,7 @@
-type Application @model @auth(rules: [{allow: private, operations: [create, read, update]}]) {
+type Application @model @auth(rules: [{allow: owner}]) {
   id: ID!
   applicant: String!
   amount: Int!
   status: String!
-} 
+}
+ 
