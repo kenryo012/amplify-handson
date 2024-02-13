@@ -1,4 +1,4 @@
-type Application @model @auth(rules: [{allow: owner}]) {
+type Application @model @auth(rules: [{allow: owner}, {allow: groups, groups: ["Admin"], operations: [read, create, update, delete]}]) {
   id: ID!
   applicant: String!
   amount: Int!

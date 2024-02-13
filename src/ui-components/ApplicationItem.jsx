@@ -9,7 +9,7 @@ import * as React from "react";
 import { getOverrideProps } from "./utils";
 import { Button, Flex, Text } from "@aws-amplify/ui-react";
 export default function ApplicationItem(props) {
-  const { application, overrides, ...rest } = props;
+  const { application, applicationItem, overrides, ...rest } = props;
   return (
     <Flex
       gap="16px"

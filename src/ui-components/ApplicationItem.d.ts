@@ -29,6 +29,7 @@ export declare type ApplicationItemOverridesProps = {
 } & EscapeHatchProps;
 export declare type ApplicationItemProps = React.PropsWithChildren<Partial<FlexProps> & {
     application?: Application;
+    applicationItem?: React.ReactNode;
 } & {
     overrides?: ApplicationItemOverridesProps | undefined | null;
 }>;
