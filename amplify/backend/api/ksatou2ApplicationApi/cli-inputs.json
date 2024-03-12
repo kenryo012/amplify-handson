@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "paths": {
+    "/application": {
+      "name": "/application",
+      "lambdaFunction": "ksatou2ApplicationFunction",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "read"
+        ]
+      }
+    }
+  }
+}

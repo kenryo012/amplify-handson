@@ -1,8 +1,11 @@
 import "@aws-amplify/ui-react/styles.css";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { ApplicationCreate, ApplicationItemCollection } from "./ui-components";
-import { Auth, DataStore } from "aws-amplify";
+import { Auth, DataStore, API } from "aws-amplify";
 import { useEffect, useState } from "react";
+import awsconfig from "./aws-exports";
+
+const [{ name: API_NAME }] = awsconfig.aws_cloud_logic_custom;
 
 function App({ signOut }) {
   // コンポーネントで管理者かどうかの状態を管理したいのでuseStateフックを使用する
@@ -38,6 +41,15 @@ function App({ signOut }) {
     await signOut();
   };
 
+  const judge = async (id, kind) => {
+    await API.get(API_NAME, "/application", {
+      queryStringParameters: {
+        id: id,
+        kind: kind,
+      },
+    });
+  };
+
   return (
     <div className="App">
       <ApplicationItemCollection
@@ -49,18 +61,13 @@ function App({ signOut }) {
               // 表示非表示を所属グループによって切り替える
               display: !isAdmin && "none",
               // ボタンをクリックした時の動作を定義する
-              onClick: () =>
-                alert(
-                  `Click ApproveButton id: ${item.id}, applicant: ${item.applicant}`
-                ),
+              onClick: () => judge(item.id, "1"),
             },
             // 却下ボタン
             RejectButton: {
               display: !isAdmin && "none",
-              onClick: () =>
-                alert(
-                  `Click RejectButton id: ${item.id}, applicant: ${item.applicant}`
-                ),
+              // ボタンをクリックした時の動作を定義する
+              onClick: () => judge(item.id, "2"),
             },
           },
         })}

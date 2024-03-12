@@ -3,6 +3,11 @@ export type AmplifyDependentResourcesAttributes = {
     "amplifyhandsonksatou2": {
       "GraphQLAPIEndpointOutput": "string",
       "GraphQLAPIIdOutput": "string"
+    },
+    "ksatou2ApplicationApi": {
+      "ApiId": "string",
+      "ApiName": "string",
+      "RootUrl": "string"
     }
   },
   "auth": {
@@ -14,6 +19,15 @@ export type AmplifyDependentResourcesAttributes = {
       "UserPoolArn": "string",
       "UserPoolId": "string",
       "UserPoolName": "string"
+    }
+  },
+  "function": {
+    "ksatou2ApplicationFunction": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
     }
   }
 }

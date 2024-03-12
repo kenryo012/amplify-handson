@@ -27,6 +27,20 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "AppSync"
+    },
+    "ksatou2ApplicationApi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ksatou2ApplicationFunction"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
     }
   },
   "auth": {
@@ -71,6 +85,99 @@
       "service": "customCloudformation"
     }
   },
-  "function": {},
-  "storage": {}
+  "function": {
+    "ksatou2ApplicationFunction": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "Application74ev7jrwvzax3bphq7bzs2yjfidev"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_ksatou2ApplicationFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ksatou2ApplicationFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_ksatou2ApplicationFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ksatou2ApplicationFunction"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Application74ev7jrwvzax3bphq7bzs2yjfidev_arn": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Application74ev7jrwvzax3bphq7bzs2yjfidev"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Application74ev7jrwvzax3bphq7bzs2yjfidev_partitionKeyName": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Application74ev7jrwvzax3bphq7bzs2yjfidev"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Application74ev7jrwvzax3bphq7bzs2yjfidev_partitionKeyType": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Application74ev7jrwvzax3bphq7bzs2yjfidev"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Application74ev7jrwvzax3bphq7bzs2yjfidev_region": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Application74ev7jrwvzax3bphq7bzs2yjfidev"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Application74ev7jrwvzax3bphq7bzs2yjfidev_streamArn": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Application74ev7jrwvzax3bphq7bzs2yjfidev"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Application74ev7jrwvzax3bphq7bzs2yjfidev_tableName": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Application74ev7jrwvzax3bphq7bzs2yjfidev"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "Application74ev7jrwvzax3bphq7bzs2yjfidev": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB",
+      "serviceType": "imported"
+    }
+  }
 }
